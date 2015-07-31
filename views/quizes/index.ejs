@@ -1,3 +1,10 @@
+<form method="get" action="/quizes">
+    Buscar preguntas:<input type="text"  name="search" value="texto a buscar" />
+    <input type="submit" value="Buscar" /><br>
+</form>
+<p>Dejar en blanco para obtener la lista completa</p>
+<br>
+
 <table>
   <% var i; for (i=0; i < quizes.length; i++) { %>
     <tr><td><a href="/quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td></tr>
