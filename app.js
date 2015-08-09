@@ -39,6 +39,26 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(function(req, res, next) {
+    if (req.session.user) {
+        if (req.session.timeout) {
+            if (req.session.timeout + 120000 < new Date().getTime()) {
+                delete req.session.user;
+                req.session.errors = [{ 'message': 'Tiempo de sesión expirado' }];
+                res.redirect('/login');
+                return;
+            }
+        }
+
+        req.session.timeout = new Date().getTime();
+    } else {
+        req.session.timeout = null;
+    }
+
+    next();
+});
+
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
@@ -73,6 +93,5 @@ app.use(function(err, req, res, next) {
         errors: []
     });
 });
-
 
 module.exports = app;
